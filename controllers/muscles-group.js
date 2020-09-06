@@ -11,6 +11,35 @@ module.exports.getAll = async (req, res) => {
     }
 };
 
+module.exports.getAllMuscles = async (req, res) => {
+    try {
+        const musclesGroup = await MusclesGroup.find({user: req.user.id});
+        const muscles = await Muscle.find({user: req.user.id})
+        const dataMusclesGroupWithChildren = []
+
+        musclesGroup.map((group, i) => {
+
+            dataMusclesGroupWithChildren[i] = {
+                _id: group._id,
+                name: group.name,
+                user: group.user,
+                children: []
+            }
+
+            muscles.forEach(muscle => {
+                if (group._id.toString() == muscle.category.toString()) {
+                    dataMusclesGroupWithChildren[i].children.push(muscle)
+                }
+            })
+        })
+
+        res.status(200).json(dataMusclesGroupWithChildren);
+    } catch (error) {
+        errorHandler(res, error);
+    }
+};
+
+
 module.exports.getById = async (req, res) => {
     try {
         const musclesGroup = await MusclesGroup.findById(req.params.id);

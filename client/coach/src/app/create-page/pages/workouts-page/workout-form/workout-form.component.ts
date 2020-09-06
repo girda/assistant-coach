@@ -24,7 +24,7 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit {
   musclesIdArr: any[] = [];
   musclesLocalData = null;
 
-  musclesGroupAccardion;
+  // musclesGroupAccardion;
 
   muscles$: Observable<Muscle[]>;
   musclesGroup$: Observable<MusclesGroup[]>;
@@ -38,40 +38,42 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit {
       name: new FormControl(null, Validators.required)
     });
 
-    this.musclesGroup$ = this.musclesGroupService.fetch();
+    this.musclesGroup$ = this.musclesGroupService.fetchWithChildren();
+
+    this.musclesGroup$.subscribe(res => console.log(res))
   }
 
   ngAfterViewInit() {
     this.musclesGroup$.subscribe(res => {      
-      this.musclesGroupAccardion = MaterialService.initAccordion(this.musclesGroupRef)
+       MaterialService.initAccordion(this.musclesGroupRef)
     })
     
   }
 
-  getMuscles(musclesId) {
-    // console.log(musclesId);
-    // // console.log(this.muscles);
-    // if (this.musclesIdArr.includes(musclesId)) {
+  // getMuscles(musclesId) {
+  //   // console.log(musclesId);
+  //   // // console.log(this.muscles);
+  //   // if (this.musclesIdArr.includes(musclesId)) {
 
-    //   console.log(this.musclesLocalData[musclesId]);
-    //   return
-    // } else {
-      this.musclesIdArr.push(musclesId)
-      this.muscles$ = this.musclesService.fetch(musclesId)
-      // this.musclesGroupAccardion.onOpenStart(() => {
-      //   console.log('WoRK')
-      // });
+  //   //   console.log(this.musclesLocalData[musclesId]);
+  //   //   return
+  //   // } else {
+  //     this.musclesIdArr.push(musclesId)
+  //     this.muscles$ = this.musclesService.fetch(musclesId)
+  //     // this.musclesGroupAccardion.onOpenStart(() => {
+  //     //   console.log('WoRK')
+  //     // });
       
-      // this.muscles$.subscribe(res => {
-      //   this.musclesLocalData = {}
-      //   this.musclesLocalData[musclesId] = res
-      // })
-      // console.log(this.musclesIdArr);
-      // console.log(this.musclesIdArr.includes(musclesId));
-    // }
+  //     // this.muscles$.subscribe(res => {
+  //     //   console.log(res);
+        
+  //     // })
+  //     // console.log(this.musclesIdArr);
+  //     // console.log(this.musclesIdArr.includes(musclesId));
+  //   // }
     
-    // this.muscles$ = this.musclesService.fetch(musclesId)
-  }
+  //   // this.muscles$ = this.musclesService.fetch(musclesId)
+  // }
 
   onSubmit() {
 

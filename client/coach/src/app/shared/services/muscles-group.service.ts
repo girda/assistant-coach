@@ -16,6 +16,10 @@ export class MusclesGroupService {
     return this.http.get<MusclesGroup[]>(`${environment.apiUrl}/api/muscles-group`)
   }
 
+  fetchWithChildren(): Observable<MusclesGroup[]> {
+    return this.http.get<MusclesGroup[]>(`${environment.apiUrl}/api/muscles-group/muscles`)
+  }
+
   getById(id: string): Observable<MusclesGroup> {
     return this.http.get<MusclesGroup>(`${environment.apiUrl}/api/muscles-group/${id}`)
   }

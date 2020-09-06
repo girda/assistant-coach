@@ -10,7 +10,8 @@ export interface Message {
 export interface MusclesGroup {
   name: string,
   user?: string,
-  _id?: string
+  _id?: string,
+  children?: Muscle[]
 }
 
 export interface Workout {
