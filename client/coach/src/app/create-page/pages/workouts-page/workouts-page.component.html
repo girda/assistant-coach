@@ -1,0 +1,41 @@
+<div class="page-title">
+    <h4>
+      <a routerLink="/create">Создать</a>
+      <i class="material-icons">keyboard_arrow_right</i>
+       Тренировку
+    </h4>
+    <button
+      class="waves-effect waves-light btn grey darken-1"
+      routerLink="/create/workouts/new"
+    >
+      Добавить тренировку
+    </button>
+  </div>
+  
+  <div
+    class="row"
+    *ngIf="workouts$ | async as workouts; else loader"
+  >
+    <div class="col s12">
+      <div class="collection" *ngIf="workouts.length !== 0; else empty">
+        <a
+          *ngFor="let workout of workouts"
+          [routerLink]="['/create/workouts', workout._id]"
+          class="collection-item"
+        >
+          {{workout.name}}
+        </a>
+      </div>
+      <ng-template #empty>
+        <div class="center">
+          У вас нет ни одной готовой тренировки
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  
+  <ng-template #loader>
+    <app-loader></app-loader>
+  </ng-template>
+  
+  

@@ -1,0 +1,61 @@
+<div class="page-title">
+  <h4>
+    <a routerLink="/create">Создать</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <a routerLink="/create/muscles">Групы мышц</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <span *ngIf="isLoaded; else loader">{{isNew ? 'Добавить' : 'Редактировать'}} групу {{form.get('name').value}}</span>
+    <ng-template #loader>
+      <app-loader [classMod]="classMod"></app-loader>
+    </ng-template>
+  </h4>
+
+  <span>
+    <button
+      *ngIf="!isNew"
+      class="btn btn-small red"
+      (click)="deleteCategory()">
+      <i class="material-icons">delete</i>
+    </button>
+  </span>
+</div>
+
+<div class="row">
+  <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="input-field">
+      <input
+        formControlName="name"
+        id="name"
+        type="text"
+      [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+      >
+      <label for="name">Название</label>
+      <span
+        class="helper-text red-text"
+      *ngIf="form.get('name').invalid && form.get('name').touched">
+        <span *ngIf="form.get('name').errors['required']">
+          Имя категории не можит быть пустым
+        </span>
+      </span>
+    </div>
+
+    
+
+    <div>
+      <button
+        type="submit"
+        [disabled]="form.invalid || form.disabled"
+        class="waves-effect waves-light btn"
+      >
+        Сохранить изменения
+      </button>
+    </div>
+  </form>
+
+  
+</div>
+
+<app-muscle-form
+  *ngIf="musclesGroup?._id"
+  [categoryId]="musclesGroup._id"
+></app-muscle-form>

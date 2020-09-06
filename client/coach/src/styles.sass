@@ -1,0 +1,44 @@
+@import '~materialize-css/dist/css/materialize.min.css'
+@import './app/shared/styles/reset.sass'
+@import './app/shared/styles/variables.sass'
+@import './app/shared/styles/theme.scss'
+
+.create-card
+    position: relative
+    display: flex
+    box-shadow: 0 2px 10px -5px $black
+
+    img
+        width: 100%
+        object-fit: cover
+
+    &__title
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+
+        font-size: 32px
+        font-weight: 500
+        color: $black
+
+        background-color: #fff
+        box-shadow: 0 2px 50px 80px white
+
+.breadcrumbs
+    display: flex
+    flex-wrap: wrap
+
+    &__item
+        display: flex
+        align-items: center
+
+    &__link
+        padding: 20px
+        margin: 0
+
+        font-size: 34px
+        color: $black
+
+    a:hover
+        color: $blue

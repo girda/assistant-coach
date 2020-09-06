@@ -1,0 +1,29 @@
+{
+  "name": "assistant-coatc",
+  "version": "1.0.0",
+  "description": "MEAN",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "server": "nodemon index",
+    "client": "npm run start --prefix client/coach",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "artem.girda@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "materialize-css": "^1.0.0",
+    "moment": "^2.27.0",
+    "mongoose": "^5.10.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
+  }
+}

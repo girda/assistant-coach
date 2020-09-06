@@ -1,0 +1,14 @@
+<div class="create">
+    <div class="page-title">
+        <h4>Создать</h4>
+    </div>
+
+    <div class="create__cards">
+        <a *ngFor="let item of feature" routerLink="/{{item.route}}" class="create-card create__card">
+            <img src="/assets/img/{{item.imgUrl}}" alt="">
+
+            <p class="create-card__title">{{item.title}}</p>
+        </a>
+    </div>
+
+</div>

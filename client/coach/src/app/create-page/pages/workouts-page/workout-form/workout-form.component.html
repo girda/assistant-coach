@@ -1,0 +1,100 @@
+<div class="page-title">
+    <h4>
+      <a routerLink="/create">Создать</a>
+      <i class="material-icons">keyboard_arrow_right</i>
+      <a routerLink="/create/workouts">Тренировки</a>
+      <i class="material-icons">keyboard_arrow_right</i>
+      <span *ngIf="isLoaded; else loader">{{isNew ? 'Добавить' : 'Редактировать'}} тренировку {{form.get('name').value ? '"' : ''}}{{form.get('name').value}}{{form.get('name').value ? '"' : ''}}</span>
+      <ng-template #loader>
+        <app-loader [classMod]="classMod"></app-loader>
+      </ng-template>
+    </h4>
+  </div>
+
+  <div class="row">
+    <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="input-field">
+        <input
+          formControlName="name"
+          id="name"
+          type="text"
+        [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+        >
+        <label for="name">Название тренировки</label>
+        <span
+          class="helper-text red-text"
+        *ngIf="form.get('name').invalid && form.get('name').touched">
+          <span *ngIf="form.get('name').errors['required']">
+            Имя тренировки не можит быть пустым
+          </span>
+        </span>
+      </div>
+      </form>
+    </div>
+
+    <div class="row">
+        <div class="col l6">
+        <div *ngIf="musclesGroup$ | async as musclesGroup; else loaderMusclesGroup">
+            <ul 
+                class="collapsible" 
+                #musclesGroupRef 
+                *ngIf="musclesGroup.length !== 0; else empty"
+            >
+                <li 
+                    *ngFor="let musclesGroupItem of musclesGroup"
+                    (click)="getMuscles(musclesGroupItem._id)"
+                    >
+                  <div 
+                    class="collapsible-header blue-text text-darken-2"
+                  >
+                    {{musclesGroupItem.name}}
+                    </div>
+                    
+                  <div class="collapsible-body">
+                    <div
+                        class="row"
+                        *ngIf="muscles$ | async as muscles;"
+                    >
+                        <div class="col s12">
+                        <div class="collection" *ngIf="muscles.length !== 0; else emptyTwo">
+                            <a
+                            *ngFor="let muscle of muscles"
+                            class="collection-item"
+                            >
+                            {{muscle.name}}
+                            </a>
+                        </div>
+                        <ng-template #emptyTwo>
+                            <div class="center">
+                            У вас нет ни одной категории
+                            </div>
+                        </ng-template>
+                        </div>
+                    </div>
+                  </div>
+
+                </li>
+              </ul>
+              <ng-template #empty>
+                <div class="center">
+                    У вас нет ни одной групы мышц
+                </div>
+                </ng-template>
+              
+        </div>
+
+        <ng-template #loaderMusclesGroup>
+            <app-loader [classMod]="classModBig"></app-loader>
+          </ng-template>
+    </div>
+
+        <div class="col l6">
+            <div class="row">
+                  <div class="card-panel">
+                    <span>I am a very simple card. I am good at containing small bits of information.
+                    I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+                    </span>
+                  </div>
+              </div>
+        </div>
+    </div>
