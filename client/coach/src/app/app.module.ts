@@ -19,6 +19,7 @@ import { MuscleFormComponent } from './create-page/pages/muscles-page/muscles-fo
 import { LoaderComponent } from './shared/components/loader/loader.component';
 import { WorkoutsPageComponent } from './create-page/pages/workouts-page/workouts-page.component';
 import { WorkoutFormComponent } from './create-page/pages/workouts-page/workout-form/workout-form.component';
+import { DiaryPageComponent } from './diary-page/diary-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { WorkoutFormComponent } from './create-page/pages/workouts-page/workout-
     MuscleFormComponent,
     LoaderComponent,
     WorkoutsPageComponent,
-    WorkoutFormComponent
+    WorkoutFormComponent,
+    DiaryPageComponent
     
   ],
   imports: [

@@ -11,6 +11,7 @@ import { MusclesPageComponent } from './create-page/pages/muscles-page/muscles-p
 import { MusclesFormComponent } from './create-page/pages/muscles-page/muscles-form/muscles-form.component'
 import { WorkoutsPageComponent } from './create-page/pages/workouts-page/workouts-page.component';
 import { WorkoutFormComponent } from './create-page/pages/workouts-page/workout-form/workout-form.component';
+import { DiaryPageComponent } from './diary-page/diary-page.component';
 
 const routes: Routes = [{
   path: '',
@@ -31,7 +32,8 @@ const routes: Routes = [{
     { path: 'create/muscles/new', component: MusclesFormComponent },
     { path: 'create/muscles/:id', component: MusclesFormComponent },
     { path: 'create/workouts', component: WorkoutsPageComponent },
-    { path: 'create/workouts/new', component: WorkoutFormComponent }
+    { path: 'create/workouts/new', component: WorkoutFormComponent },
+    { path: 'diary', component: DiaryPageComponent },
     
   ]
 }];

@@ -54,10 +54,11 @@
                       <div class="col s12">
                         <div class="collection" *ngIf="musclesGroupItem.children.length !== 0; else emptyTwo">
                             <a
-                            *ngFor="let muscle of musclesGroupItem.children"
-                            class="collection-item"
-                            >
-                            {{muscle.name}}
+                              *ngFor="let muscle of musclesGroupItem.children"
+                              class="collection-item"
+                              (click)="openModal(muscle)"
+                              >
+                              {{muscle.name}}
                             </a>
                         </div>
                         <ng-template #emptyTwo>
@@ -87,10 +88,71 @@
         <div class="col l6">
             <div class="row">
                   <div class="card-panel">
-                    <span>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-                    </span>
+
+                    <div class="collection" *ngIf="currentWorkout.length !== 0;">
+                      <a
+                        *ngFor="let item of currentWorkout"
+                        class="collection-item"
+                      >
+                        {{item.name}} {{item.sets.length}} подхода
+                      </a>
+                    </div>
+
                   </div>
               </div>
         </div>
     </div>
+
+
+
+    <form [formGroup]="formMuscle" (ngSubmit)="addMuscleInList()">
+      <div class="modal" #modal>
+        <div class="modal-content">
+          <h2 class="mb1 blue-text text-darken-2">{{currentMuscle ? currentMuscle.name : ''}}</h2>
+          <div class="input-field">
+            <input
+              formControlName="sets"
+              id="pos-name"
+              type="number"
+              value="1"
+              min="1"
+              (input)="onChangeInput()"
+            >
+            <label for="pos-name">Количество подходов</label>
+            <!-- <span
+              *ngIf="form.get('name').invalid && form.get('name').touched"
+              class="helper-text red-text"
+            >
+              Название не должно быть пустым.
+            </span> -->
+          </div>
+
+          <div class="input-field" *ngFor="let item of sets">
+            <input
+              formControlName="set{{item}}"
+              id="set{{item}}"
+              type="number"
+              value="12"
+              min="1"
+            >
+            <label for="set{{item}}">подход {{item}}, введите к-во повторений</label>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="modal-action waves-effect waves-black btn-flat"
+            (click)="onCancel()"
+            [disabled]="formMuscle.disabled"
+          >Отмена
+          </button>
+          <button
+            type="submit"
+            class="modal-action btn waves-effect"
+            [disabled]="formMuscle.invalid || formMuscle.disabled"
+          >Сохранить
+          </button>
+        </div>
+      </div>
+    </form>
