@@ -4,9 +4,15 @@
       <i class="material-icons">keyboard_arrow_right</i>
       <a routerLink="/create/workouts">Тренировки</a>
       <i class="material-icons">keyboard_arrow_right</i>
-      <span *ngIf="isLoaded; else loader">{{isNew ? 'Добавить' : 'Редактировать'}} тренировку {{form.get('name').value ? '"' : ''}}{{form.get('name').value}}{{form.get('name').value ? '"' : ''}}</span>
+      <span *ngIf="isLoaded; else loader">
+        {{isNew ? 'Добавить' : 'Редактировать'}} 
+        тренировку 
+        {{form.get('name').value ? '"' : ''}}
+        {{form.get('name').value}}
+        {{form.get('name').value ? '"' : ''}}
+      </span>
       <ng-template #loader>
-        <app-loader [classMod]="classMod"></app-loader>
+        <app-loader [classMod]="cssMod"></app-loader>
       </ng-template>
     </h4>
   </div>
@@ -81,26 +87,21 @@
         </div>
 
         <ng-template #loaderMusclesGroup>
-            <app-loader [classMod]="classModBig"></app-loader>
+            <app-loader [classMod]="cssModBig"></app-loader>
           </ng-template>
     </div>
 
         <div class="col l6">
-            <div class="row">
-                  <div class="card-panel">
 
-                    <div class="collection" *ngIf="currentWorkout.length !== 0;">
-                      <a
-                        *ngFor="let item of currentWorkout"
-                        class="collection-item"
-                      >
-                        {{item.name}} {{item.sets.length}} подхода
-                      </a>
-                    </div>
-
-                  </div>
-              </div>
-        </div>
+            <div class="collection" *ngIf="currentWorkout.length !== 0;">
+              <a
+                *ngFor="let item of currentWorkout"
+                class="collection-item"
+              >
+                {{item.name}} {{item.sets.length}} подхода
+              </a>
+            </div>
+      </div>
     </div>
 
 
@@ -112,6 +113,7 @@
           <div class="input-field">
             <input
               formControlName="sets"
+              [(ngModel)]="sets.length"
               id="pos-name"
               type="number"
               value="1"
@@ -127,15 +129,15 @@
             </span> -->
           </div>
 
-          <div class="input-field" *ngFor="let item of sets">
+          <div class="input-field" *ngFor="let item of sets;  let i = index">
             <input
-              formControlName="set{{item}}"
-              id="set{{item}}"
+              formControlName="set{{i+1}}"
+              id="set{{i+1}}"
               type="number"
               value="12"
               min="1"
             >
-            <label for="set{{item}}">подход {{item}}, введите к-во повторений</label>
+            <label for="set{{i+1}}">подход {{i+1}}, введите к-во повторений</label>
           </div>
 
         </div>
@@ -150,7 +152,7 @@
           <button
             type="submit"
             class="modal-action btn waves-effect"
-            [disabled]="formMuscle.invalid || formMuscle.disabled"
+            
           >Сохранить
           </button>
         </div>

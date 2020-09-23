@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MaterialService } from 'src/app/shared/services/material.service';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { MuscleService } from 'src/app/shared/services/muscle.service';
   templateUrl: './workout-form.component.html',
   styleUrls: ['./workout-form.component.sass']
 })
-export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 
   @ViewChild('musclesGroupRef', {static: false}) musclesGroupRef: ElementRef
   @ViewChild('modal', {static: false}) modalRef: ElementRef
@@ -19,14 +19,14 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoaded = true;
   isNew = true;
 
-  classMod: string = "small";
-  classModBig: string = "big";
+  cssMod: string = "small";
+  cssModBig: string = "big";
 
   form: FormGroup;
   formMuscle: FormGroup;
 
   modal;
-
+  materialService = MaterialService;
   currentMuscle: Muscle;
   currentWorkout = []; 
 
@@ -34,7 +34,7 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
   musclesLocalData = null;
 
   // musclesGroupAccardion;
-  sets = [];
+  sets = [15, 15, 15];
 
   muscles$: Observable<Muscle[]>;
   musclesGroup$: Observable<MusclesGroup[]>;
@@ -49,12 +49,21 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.formMuscle = new FormGroup({
-      sets: new FormControl(null, [Validators.required, Validators.minLength(1)])
+      sets: new FormControl(3, [Validators.required, Validators.minLength(1)]),
+      set1: new FormControl(15, [Validators.required, Validators.minLength(1)]),
+      set2: new FormControl(15, [Validators.required, Validators.minLength(1)]),
+      set3: new FormControl(15, [Validators.required, Validators.minLength(1)])
+
     });
 
     this.musclesGroup$ = this.musclesGroupService.fetchWithChildren();
 
     this.musclesGroup$.subscribe(res => console.log(res))
+  }
+
+  ngOnChanges() {
+console.log('change');
+
   }
 
   ngAfterViewInit() {
@@ -73,7 +82,7 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
   openModal(muscle: Muscle) {
     this.currentMuscle = muscle;
     this.modal.open();
-    
+    MaterialService.updateTextInputs()
   }
 
   onCancel() {
@@ -91,11 +100,20 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sets = [];
 
     for (let i = 0; i < countSets; i++) {
-      this.sets.push(i+1)
+      this.sets.push(15)
     }
+    const formValue = {sets: this.sets.length}
     this.sets.forEach((set, i) => {
-      this.formMuscle.addControl(`set${set}`, new FormControl(null, [Validators.required, Validators.minLength(1)]));
+      // console.log(i+1);
+      formValue[`set${i+1}`] = set;
+      this.formMuscle.addControl(`set${i+1}`, new FormControl(null, [Validators.required, Validators.minLength(1)]));
+      // this.formMuscle.setValue('15', {onlySelf: true});
     })
+    console.log(formValue);
+    
+    this.formMuscle.patchValue(formValue);
+    MaterialService.updateTextInputs()
+    
 
     console.log(this.formMuscle);
     console.log(this.sets);

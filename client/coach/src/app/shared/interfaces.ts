@@ -28,7 +28,7 @@ export interface Muscle {
   user?: string,
   category: string,
   _id?: string,
-  quantity?: number
+  sets?: any[]
 }
 
 export  interface Order {
