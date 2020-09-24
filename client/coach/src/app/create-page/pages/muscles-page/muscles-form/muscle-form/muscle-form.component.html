@@ -34,7 +34,11 @@
     </ng-template>
   </div>
 </div>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
   <div class="modal" #modal>
     <div class="modal-content">
       <h4 class="mb1">Добавить упражнение</h4>
@@ -55,9 +59,9 @@
       </div>
 
       <div class="input-field">
-        <textarea 
+        <textarea
           formControlName="description"
-          id="muscle-descr" 
+          id="muscle-descr"
           class="materialize-textarea"
           #textarea></textarea>
         <label for="muscle-descr">Описание</label>

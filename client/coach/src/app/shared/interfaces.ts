@@ -14,13 +14,6 @@ export interface MusclesGroup {
   children?: Muscle[]
 }
 
-export interface Workout {
-  name: string,
-  user?: string,
-  _id?: string
-}
-
-
 export interface Muscle {
   name: string,
   description: string,
@@ -29,6 +22,18 @@ export interface Muscle {
   category: string,
   _id?: string,
   sets?: any[]
+}
+
+export interface Workout {
+  name: string,
+  user?: string,
+  _id?: string
+  exercises: Exercises[]
+}
+
+export interface Exercises {
+  id: string
+  sets: number[]
 }
 
 export  interface Order {

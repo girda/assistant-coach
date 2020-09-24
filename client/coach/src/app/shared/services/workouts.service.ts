@@ -13,7 +13,7 @@ export class WorkoutsService {
   constructor(private http: HttpClient) {}
 
   fetch(): Observable<Workout[]> {
-        return this.http.get<Workout[]>(`${environment.apiUrl}/api/workouts`)
+        return this.http.get<Workout[]>(`${environment.apiUrl}/api/workout`)
       }
 
 //   fetch(): Observable<MusclesGroup[]> {
@@ -24,13 +24,13 @@ export class WorkoutsService {
 //     return this.http.get<MusclesGroup>(`${environment.apiUrl}/api/muscles-group/${id}`)
 //   }
 
-//   create(name: string): Observable<MusclesGroup> {
-//     const formData = new FormData();
-//     formData.append('name', name);
+  create(workout: Workout): Observable<Workout> {
+    // const formData = new FormData();
+    // formData.append('name', name);
 
-    
-//     return this.http.post<MusclesGroup>(`${environment.apiUrl}/api/muscles-group`, formData)
-//   }
+
+    return this.http.post<Workout>(`${environment.apiUrl}/api/workout`, workout)
+  }
 
 //   update(id: string, name: string, image?: File): Observable<MusclesGroup> {
 //     let formData = new FormData();

@@ -32,18 +32,20 @@ module.exports.getAll = async (req, res) => {
 //     }
 // };
 
-// module.exports.create = async (req, res) => {
-//     const musclesGroup = new MusclesGroup({
-//         name: req.body.name,
-//         user: req.user.id
-//     });
-//     try {
-//         await musclesGroup.save();
-//         res.status(201).json(musclesGroup)
-//     } catch (error) {
-//         errorHandler(res, error);
-//     }
-// };
+module.exports.create = async (req, res) => {
+    console.log(req.body)
+    const workout = new Workout({
+        name: req.body.name,
+        user: req.user.id,
+        exercises: req.body.exercises
+    });
+    try {
+        await workout.save();
+        res.status(201).json(workout)
+    } catch (error) {
+        errorHandler(res, error);
+    }
+};
 
 // module.exports.update = async (req, res) => {
 //     const updated = {

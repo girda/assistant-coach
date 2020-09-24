@@ -21,25 +21,31 @@
 </div>
 
 <div class="row">
-  <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form
+    class="col s12 l6"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
     <div class="input-field">
       <input
         formControlName="name"
         id="name"
         type="text"
-      [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+        [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
       >
       <label for="name">Название</label>
       <span
         class="helper-text red-text"
-      *ngIf="form.get('name').invalid && form.get('name').touched">
-        <span *ngIf="form.get('name').errors['required']">
+        *ngIf="form.get('name').invalid && form.get('name').touched"
+      >
+        <span
+          *ngIf="form.get('name').errors['required']"
+        >
           Имя категории не можит быть пустым
         </span>
       </span>
     </div>
 
-    
 
     <div>
       <button
@@ -52,7 +58,7 @@
     </div>
   </form>
 
-  
+
 </div>
 
 <app-muscle-form

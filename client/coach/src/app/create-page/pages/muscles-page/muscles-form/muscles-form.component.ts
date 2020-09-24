@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MusclesGroupService} from "../../../../shared/services/muscles-group.service";
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './muscles-form.component.html',
   styleUrls: ['./muscles-form.component.css']
 })
-export class MusclesFormComponent implements OnInit {
+export class MusclesFormComponent implements OnInit, OnDestroy {
 
   classMod: string = "small";
   form: FormGroup;
@@ -21,7 +21,7 @@ export class MusclesFormComponent implements OnInit {
   isNew = true;
   musclesGroup: MusclesGroup;
   environment = environment;
-
+  aSub$;
   constructor(private route: ActivatedRoute,
               private musclesGroupService: MusclesGroupService,
               private router: Router) { }
@@ -55,7 +55,7 @@ export class MusclesFormComponent implements OnInit {
             });
             MaterialService.updateTextInputs();
           }
-          
+
           this.isLoaded = true;
           this.form.enable();
         },
@@ -65,7 +65,7 @@ export class MusclesFormComponent implements OnInit {
       );
   }
 
-  
+
 
   deleteCategory() {
     const decision  = window.confirm(`Вы уверены, что хотите удалить категорию "${this.musclesGroup.name}"`);
@@ -80,19 +80,19 @@ export class MusclesFormComponent implements OnInit {
     }
   }
 
-  
+
 
   onSubmit() {
-    let obs$;
+
     this.form.disable();
 
     if (this.isNew) {
-      obs$ = this.musclesGroupService.create(this.form.value.name)
+      this.aSub$ = this.musclesGroupService.create(this.form.value.name)
     } else {
-      obs$ = this.musclesGroupService.update(this.musclesGroup._id, this.form.value.name)
+      this.aSub$ = this.musclesGroupService.update(this.musclesGroup._id, this.form.value.name)
     }
 
-    obs$.subscribe(
+    this.aSub$.subscribe(
       musclesGroup => {
         console.log(musclesGroup);
         this.musclesGroup = musclesGroup;
@@ -104,5 +104,11 @@ export class MusclesFormComponent implements OnInit {
         this.form.enable();
       }
     )
+  }
+
+  ngOnDestroy(): void {
+    if (this.aSub$) {
+      this.aSub$.unsubscribe();
+    }
   }
 }

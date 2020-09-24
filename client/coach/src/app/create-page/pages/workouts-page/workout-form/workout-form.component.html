@@ -1,160 +1,170 @@
 <div class="page-title">
-    <h4>
-      <a routerLink="/create">Создать</a>
-      <i class="material-icons">keyboard_arrow_right</i>
-      <a routerLink="/create/workouts">Тренировки</a>
-      <i class="material-icons">keyboard_arrow_right</i>
-      <span *ngIf="isLoaded; else loader">
-        {{isNew ? 'Добавить' : 'Редактировать'}} 
-        тренировку 
-        {{form.get('name').value ? '"' : ''}}
-        {{form.get('name').value}}
-        {{form.get('name').value ? '"' : ''}}
+  <h4>
+    <a routerLink="/create">Создать</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <a routerLink="/create/workouts">Тренировки</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <span *ngIf="isLoaded; else loader">
+        {{isNew ? 'Добавить' : 'Редактировать'}}
+      тренировку
+<!--      {{form.get('name').value ? '"' : ''}}-->
+<!--      {{form.get('name').value}}-->
+<!--      {{form.get('name').value ? '"' : ''}}-->
       </span>
-      <ng-template #loader>
-        <app-loader [classMod]="cssMod"></app-loader>
-      </ng-template>
-    </h4>
-  </div>
+    <ng-template #loader>
+      <app-loader [classMod]="cssMod"></app-loader>
+    </ng-template>
+  </h4>
+</div>
 
-  <div class="row">
-    <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="row">
+  <form
+    class="workout-form"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()">
       <div class="input-field">
         <input
           formControlName="name"
           id="name"
           type="text"
-        [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+          [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
         >
         <label for="name">Название тренировки</label>
         <span
           class="helper-text red-text"
-        *ngIf="form.get('name').invalid && form.get('name').touched">
+          *ngIf="form.get('name').invalid && form.get('name').touched">
           <span *ngIf="form.get('name').errors['required']">
             Имя тренировки не можит быть пустым
           </span>
         </span>
       </div>
-      </form>
-    </div>
 
-    <div class="row">
-        <div class="col l6">
-        <div *ngIf="musclesGroup$ | async as musclesGroup; else loaderMusclesGroup">
-            <ul 
-                class="collapsible" 
-                #musclesGroupRef 
-                *ngIf="musclesGroup.length !== 0; else empty"
-            >
-                <li 
-                    *ngFor="let musclesGroupItem of musclesGroup"
-                    >
-                  <div 
-                    class="collapsible-header blue-text text-darken-2"
+
+      <button
+        type="submit"
+        class="modal-action btn waves-effect"
+        [disabled]="form.invalid"
+      >
+        Сохранить тренировку
+      </button>
+
+
+  </form>
+</div>
+
+<div class="row">
+  <div class="col l6">
+    <div *ngIf="musclesGroup$ | async as musclesGroup; else loaderMusclesGroup">
+      <ul
+        class="collapsible"
+        #musclesGroupRef
+        *ngIf="musclesGroup.length !== 0; else empty"
+      >
+        <li
+          *ngFor="let musclesGroupItem of musclesGroup"
+        >
+          <div
+            class="collapsible-header blue-text text-darken-2"
+          >
+            {{musclesGroupItem.name}}
+          </div>
+
+          <div class="collapsible-body">
+            <div class="row">
+              <div class="col s12">
+                <div class="collection" *ngIf="musclesGroupItem.children.length !== 0; else emptyTwo">
+                  <a
+                    *ngFor="let muscle of musclesGroupItem.children"
+                    class="collection-item"
+                    (click)="openModal(muscle)"
                   >
-                    {{musclesGroupItem.name}}
-                    </div>
-                    
-                  <div class="collapsible-body">
-                    <div class="row">
-                      <div class="col s12">
-                        <div class="collection" *ngIf="musclesGroupItem.children.length !== 0; else emptyTwo">
-                            <a
-                              *ngFor="let muscle of musclesGroupItem.children"
-                              class="collection-item"
-                              (click)="openModal(muscle)"
-                              >
-                              {{muscle.name}}
-                            </a>
-                        </div>
-                        <ng-template #emptyTwo>
-                            <div class="center">
-                            У вас нет ни одной категории
-                            </div>
-                        </ng-template>
-                        </div>
-                    </div>
-                  </div>
-
-                </li>
-              </ul>
-              <ng-template #empty>
-                <div class="center">
-                    У вас нет ни одной групы мышц
+                    {{muscle.name}}
+                  </a>
                 </div>
+                <ng-template #emptyTwo>
+                  <div class="center">
+                    У вас нет ни одной категории
+                  </div>
                 </ng-template>
-              
-        </div>
-
-        <ng-template #loaderMusclesGroup>
-            <app-loader [classMod]="cssModBig"></app-loader>
-          </ng-template>
-    </div>
-
-        <div class="col l6">
-
-            <div class="collection" *ngIf="currentWorkout.length !== 0;">
-              <a
-                *ngFor="let item of currentWorkout"
-                class="collection-item"
-              >
-                {{item.name}} {{item.sets.length}} подхода
-              </a>
+              </div>
             </div>
-      </div>
+          </div>
+
+        </li>
+      </ul>
+      <ng-template #empty>
+        <div class="center">
+          У вас нет ни одной групы мышц
+        </div>
+      </ng-template>
+
     </div>
 
+    <ng-template #loaderMusclesGroup>
+      <app-loader [classMod]="cssModBig"></app-loader>
+    </ng-template>
+  </div>
+
+  <div class="col l6">
+
+    <div class="collection" *ngIf="currentWorkout.exercises.length !== 0;">
+      <a
+        *ngFor="let item of currentWorkout.exercises"
+        class="collection-item"
+      >
+        {{item.name}} {{item.sets.length}} подхода
+      </a>
+    </div>
+  </div>
+</div>
 
 
-    <form [formGroup]="formMuscle" (ngSubmit)="addMuscleInList()">
-      <div class="modal" #modal>
-        <div class="modal-content">
-          <h2 class="mb1 blue-text text-darken-2">{{currentMuscle ? currentMuscle.name : ''}}</h2>
-          <div class="input-field">
-            <input
-              formControlName="sets"
-              [(ngModel)]="sets.length"
-              id="pos-name"
-              type="number"
-              value="1"
-              min="1"
-              (input)="onChangeInput()"
-            >
-            <label for="pos-name">Количество подходов</label>
-            <!-- <span
-              *ngIf="form.get('name').invalid && form.get('name').touched"
-              class="helper-text red-text"
-            >
-              Название не должно быть пустым.
-            </span> -->
-          </div>
-
-          <div class="input-field" *ngFor="let item of sets;  let i = index">
-            <input
-              formControlName="set{{i+1}}"
-              id="set{{i+1}}"
-              type="number"
-              value="12"
-              min="1"
-            >
-            <label for="set{{i+1}}">подход {{i+1}}, введите к-во повторений</label>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="modal-action waves-effect waves-black btn-flat"
-            (click)="onCancel()"
-            [disabled]="formMuscle.disabled"
-          >Отмена
-          </button>
-          <button
-            type="submit"
-            class="modal-action btn waves-effect"
-            
-          >Сохранить
-          </button>
-        </div>
+<form [formGroup]="formMuscle" (ngSubmit)="addMuscleInList()">
+  <div class="modal" #modal>
+    <div class="modal-content">
+      <h2 class="mb1 blue-text text-darken-2">{{currentMuscle ? currentMuscle.name : ''}}</h2>
+      <div class="input-field">
+        <input
+          formControlName="sets"
+          id="pos-name"
+          type="number"
+          value="1"
+          min="1"
+          (input)="onChangeSets()"
+        >
+        <label for="pos-name">Количество подходов</label>
+        <!-- <span
+          *ngIf="form.get('name').invalid && form.get('name').touched"
+          class="helper-text red-text"
+        >
+          Название не должно быть пустым.
+        </span> -->
       </div>
-    </form>
+
+      <div class="input-field" *ngFor="let item of sets;  let i = index">
+        <input
+          formControlName="set{{i+1}}"
+          id="set{{i+1}}"
+          type="number"
+          (ngModelChange)="materialService.updateTextInputs()"
+        >
+        <label for="set{{i+1}}">подход {{i + 1}}, введите к-во повторений</label>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="modal-action waves-effect waves-black btn-flat"
+        (click)="onCancel()"
+      >Отмена
+      </button>
+      <button
+        type="submit"
+        class="modal-action btn waves-effect"
+        [disabled]="formMuscle.invalid"
+      >Сохранить
+      </button>
+    </div>
+  </div>
+</form>

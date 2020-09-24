@@ -5,16 +5,17 @@ import { Observable } from 'rxjs';
 import { MusclesGroup, Muscle } from 'src/app/shared/interfaces';
 import { MusclesGroupService } from 'src/app/shared/services/muscles-group.service';
 import { MuscleService } from 'src/app/shared/services/muscle.service';
+import {WorkoutsService} from "../../../../shared/services/workouts.service";
 
 @Component({
   selector: 'app-workout-form',
   templateUrl: './workout-form.component.html',
   styleUrls: ['./workout-form.component.sass']
 })
-export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('musclesGroupRef', {static: false}) musclesGroupRef: ElementRef
-  @ViewChild('modal', {static: false}) modalRef: ElementRef
+  @ViewChild('musclesGroupRef', {static: false}) musclesGroupRef: ElementRef;
+  @ViewChild('modal', {static: false}) modalRef: ElementRef;
 
   isLoaded = true;
   isNew = true;
@@ -28,19 +29,20 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy, O
   modal;
   materialService = MaterialService;
   currentMuscle: Muscle;
-  currentWorkout = []; 
+  currentWorkout = {name: '', exercises: []};
 
   musclesIdArr: any[] = [];
   musclesLocalData = null;
 
-  // musclesGroupAccardion;
+  // musclesGroupAccordion;
   sets = [15, 15, 15];
 
   muscles$: Observable<Muscle[]>;
   musclesGroup$: Observable<MusclesGroup[]>;
 
   constructor(private musclesGroupService: MusclesGroupService,
-              private musclesService: MuscleService) { }
+              private musclesService: MuscleService,
+              private workoutService: WorkoutsService) { }
 
 
   ngOnInit(): void {
@@ -49,10 +51,10 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy, O
     });
 
     this.formMuscle = new FormGroup({
-      sets: new FormControl(3, [Validators.required, Validators.minLength(1)]),
-      set1: new FormControl(15, [Validators.required, Validators.minLength(1)]),
-      set2: new FormControl(15, [Validators.required, Validators.minLength(1)]),
-      set3: new FormControl(15, [Validators.required, Validators.minLength(1)])
+      sets: new FormControl(3, [Validators.required, Validators.min(1)]),
+      set1: new FormControl(15, [Validators.required, Validators.min(1)]),
+      set2: new FormControl(15, [Validators.required, Validators.min(1)]),
+      set3: new FormControl(15, [Validators.required, Validators.min(1)])
 
     });
 
@@ -61,18 +63,13 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy, O
     this.musclesGroup$.subscribe(res => console.log(res))
   }
 
-  ngOnChanges() {
-console.log('change');
-
-  }
-
   ngAfterViewInit() {
-    this.musclesGroup$.subscribe(res => {      
+    this.musclesGroup$.subscribe(res => {
       MaterialService.initAccordion(this.musclesGroupRef)
-    })
+    });
 
      this.modal = MaterialService.initModal(this.modalRef)
-    
+
   }
 
   ngOnDestroy() {
@@ -89,10 +86,10 @@ console.log('change');
     this.modal.close();
   }
 
-  onChangeInput() {
-    const countSets = this.formMuscle.get('sets').value
+  onChangeSets() {
+    const countSets = this.formMuscle.get('sets').value;
 
-    
+
     this.sets.forEach((set, i) => {
       this.formMuscle.removeControl(`set${i+1}`);
     })
@@ -107,33 +104,37 @@ console.log('change');
       // console.log(i+1);
       formValue[`set${i+1}`] = set;
       this.formMuscle.addControl(`set${i+1}`, new FormControl(null, [Validators.required, Validators.minLength(1)]));
-      // this.formMuscle.setValue('15', {onlySelf: true});
-    })
+    });
     console.log(formValue);
-    
-    this.formMuscle.patchValue(formValue);
-    MaterialService.updateTextInputs()
-    
-
     console.log(this.formMuscle);
     console.log(this.sets);
-    
+    this.formMuscle.patchValue(formValue);
+    setTimeout(MaterialService.updateTextInputs, 100)
+
   }
 
   onSubmit() {
-
+    this.currentWorkout.name = this.form.get('name').value;
+    this.currentWorkout.exercises.filter(exercise => delete exercise.name);
+    console.log(this.currentWorkout)
+    this.workoutService.create(this.currentWorkout).subscribe(res => {
+      console.log(res)
+    })
   }
 
   addMuscleInList() {
     console.log(this.formMuscle.getRawValue());
-    console.log(this.currentMuscle)
-    const setsLength = this.formMuscle.getRawValue().sets
-    const sets = []
+    console.log(this.currentMuscle);
+    const setsLength = this.formMuscle.getRawValue().sets;
+    const sets = [];
     for (let i = 0; i < setsLength; i++) {
-      sets.push(this.formMuscle.get('set' + i+1))
+      sets.push(this.formMuscle.get('set' + (i+1)).value)
     }
-    this.currentWorkout.push({muscle_id: this.currentMuscle._id, sets: sets, name: this.currentMuscle.name })
+
+    console.log(sets)
+    this.currentWorkout.exercises.push({muscle_id: this.currentMuscle._id, sets: sets, name: this.currentMuscle.name });
     this.modal.close();
+    console.log(this.currentWorkout)
   }
 
 }
