@@ -1,0 +1,18 @@
+<div class="collection" *ngIf="list.length !== 0 ; else empty">
+    <a
+      *ngFor="let position of list"
+      class="collection-item collection-item-icon"
+      (click)="onSelectPosition(position)"
+    >
+     <span>
+       {{position.name}}
+     </span>
+      <span>
+        <i class="material-icons" (click)="onDeletePosition($event, position)">delete</i>
+      </span>
+    </a>
+  </div>
+
+  <ng-template #empty>
+    <div class="center">В категории позиций нет</div>
+  </ng-template>

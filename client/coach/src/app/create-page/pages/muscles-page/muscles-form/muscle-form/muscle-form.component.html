@@ -25,6 +25,7 @@
           </span>
         </a>
       </div>
+      
       <ng-template #empty>
         <div class="center">В категории позиций нет</div>
       </ng-template>
@@ -34,7 +35,10 @@
     </ng-template>
   </div>
 </div>
-
+<app-list 
+        [list]="positions"
+        [selectPosition]="onSelectPosition"
+      ></app-list>
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"

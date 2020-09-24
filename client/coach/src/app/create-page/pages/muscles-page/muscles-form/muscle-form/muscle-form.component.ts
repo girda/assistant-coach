@@ -32,7 +32,7 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
       name: new FormControl(null, Validators.required),
       description: new FormControl(null)
     });
-
+    
     this.loading = true;
     this.positionService.fetch(this.categoryId).subscribe(
       positions => {
@@ -74,7 +74,8 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(position)
     this.positionId = position._id;
     this.imagePreview = `${environment.apiUrl}/${position.imageSrc}`;
-
+    console.log(this.form);
+    
     this.form.patchValue({
       name: position.name,
       description: position.description

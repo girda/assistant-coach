@@ -72,10 +72,13 @@
           <div class="collapsible-body">
             <div class="row">
               <div class="col s12">
-                <div class="collection" *ngIf="musclesGroupItem.children.length !== 0; else emptyTwo">
+                <div 
+                  class="collection" 
+                  *ngIf="musclesGroupItem.children.length !== 0; else emptyTwo"
+                >
                   <a
                     *ngFor="let muscle of musclesGroupItem.children"
-                    class="collection-item"
+                    class="collection-item grey-text text-darken-4"
                     (click)="openModal(muscle)"
                   >
                     {{muscle.name}}

@@ -20,6 +20,7 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
 import { WorkoutsPageComponent } from './create-page/pages/workouts-page/workouts-page.component';
 import { WorkoutFormComponent } from './create-page/pages/workouts-page/workout-form/workout-form.component';
 import { DiaryPageComponent } from './diary-page/diary-page.component';
+import { ListComponent } from './shared/components/list/list.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,8 @@ import { DiaryPageComponent } from './diary-page/diary-page.component';
     LoaderComponent,
     WorkoutsPageComponent,
     WorkoutFormComponent,
-    DiaryPageComponent
-    
+    DiaryPageComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

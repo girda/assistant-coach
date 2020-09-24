@@ -33,6 +33,7 @@ const routes: Routes = [{
     { path: 'create/muscles/:id', component: MusclesFormComponent },
     { path: 'create/workouts', component: WorkoutsPageComponent },
     { path: 'create/workouts/new', component: WorkoutFormComponent },
+    { path: 'create/workouts/:id', component: WorkoutFormComponent },
     { path: 'diary', component: DiaryPageComponent },
     
   ]

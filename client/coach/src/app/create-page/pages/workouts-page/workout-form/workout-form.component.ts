@@ -6,6 +6,9 @@ import { MusclesGroup, Muscle } from 'src/app/shared/interfaces';
 import { MusclesGroupService } from 'src/app/shared/services/muscles-group.service';
 import { MuscleService } from 'src/app/shared/services/muscle.service';
 import {WorkoutsService} from "../../../../shared/services/workouts.service";
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import {switchMap} from "rxjs/operators";
+import {of} from "rxjs/internal/observable/of";
 
 @Component({
   selector: 'app-workout-form',
@@ -42,10 +45,13 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private musclesGroupService: MusclesGroupService,
               private musclesService: MuscleService,
-              private workoutService: WorkoutsService) { }
+              private workoutService: WorkoutsService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
 
   ngOnInit(): void {
+
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required)
     });
