@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MuscleService} from "../../../../../shared/services/muscle.service";
-import {Muscle} from "../../../../../shared/interfaces";
+import {IMuscle} from "../../../../../shared/interfaces";
 import {MaterialInstance, MaterialService} from "../../../../../shared/services/material.service";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import { environment } from 'src/environments/environment';
@@ -16,7 +16,7 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('inputFile', {static: false}) inputFileRef: ElementRef;
   @ViewChild('textarea', {static: false}) textareaRef: ElementRef;
 
-  positions: Muscle[] = [];
+  positions: IMuscle[] = [];
   loading = false;
   positionId = null;
   modal: MaterialInstance;
@@ -32,7 +32,7 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
       name: new FormControl(null, Validators.required),
       description: new FormControl(null)
     });
-    
+
     this.loading = true;
     this.positionService.fetch(this.categoryId).subscribe(
       positions => {
@@ -70,18 +70,18 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
     reader.readAsDataURL(file)
   }
 
-  onSelectPosition(position: Muscle) {
+  onSelectPosition(position: IMuscle) {
     console.log(position)
     this.positionId = position._id;
     this.imagePreview = `${environment.apiUrl}/${position.imageSrc}`;
     console.log(this.form);
-    
+
     this.form.patchValue({
       name: position.name,
       description: position.description
     });
-    
-    
+
+
     this.modal.open();
 
     MaterialService.updateTextInputs()
@@ -100,7 +100,7 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
     MaterialService.updateTextInputs()
   }
 
-  onDeletePosition(event: Event, position: Muscle) {
+  onDeletePosition(event: Event, position: IMuscle) {
     event.stopPropagation();
     const decision = confirm(`Удалить позицию "${position.name}"?`);
 
@@ -123,7 +123,7 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmit() {
     this.form.disable();
 
-    const newPosition: Muscle = {
+    const newPosition: IMuscle = {
       name: this.form.value.name,
       description: this.form.value.description,
       category: this.categoryId
@@ -137,7 +137,7 @@ export class MuscleFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.positionId) {
       newPosition._id = this.positionId;
-      
+
       this.positionService.update(newPosition, this.image).subscribe(
         position => {
           const index = this.positions.findIndex(p => p._id === position._id);

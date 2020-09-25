@@ -7,9 +7,9 @@
     <span *ngIf="isLoaded; else loader">
         {{isNew ? 'Добавить' : 'Редактировать'}}
       тренировку
-<!--      {{form.get('name').value ? '"' : ''}}-->
-<!--      {{form.get('name').value}}-->
-<!--      {{form.get('name').value ? '"' : ''}}-->
+      <!--      {{form.get('name').value ? '"' : ''}}-->
+      <!--      {{form.get('name').value}}-->
+      <!--      {{form.get('name').value ? '"' : ''}}-->
       </span>
     <ng-template #loader>
       <app-loader [classMod]="cssMod"></app-loader>
@@ -22,31 +22,31 @@
     class="workout-form"
     [formGroup]="form"
     (ngSubmit)="onSubmit()">
-      <div class="input-field">
-        <input
-          formControlName="name"
-          id="name"
-          type="text"
-          [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
-        >
-        <label for="name">Название тренировки</label>
-        <span
-          class="helper-text red-text"
-          *ngIf="form.get('name').invalid && form.get('name').touched">
+    <div class="input-field">
+      <input
+        formControlName="name"
+        id="name"
+        type="text"
+        [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+      >
+      <label for="name">Название тренировки</label>
+      <span
+        class="helper-text red-text"
+        *ngIf="form.get('name').invalid && form.get('name').touched">
           <span *ngIf="form.get('name').errors['required']">
             Имя тренировки не можит быть пустым
           </span>
         </span>
-      </div>
+    </div>
 
 
-      <button
-        type="submit"
-        class="modal-action btn waves-effect"
-        [disabled]="form.invalid"
-      >
-        Сохранить тренировку
-      </button>
+    <button
+      type="submit"
+      class="modal-action btn waves-effect"
+      [disabled]="form.invalid"
+    >
+      Сохранить тренировку
+    </button>
 
 
   </form>
@@ -72,8 +72,8 @@
           <div class="collapsible-body">
             <div class="row">
               <div class="col s12">
-                <div 
-                  class="collection" 
+                <div
+                  class="collection"
                   *ngIf="musclesGroupItem.children.length !== 0; else emptyTwo"
                 >
                   <a
@@ -110,12 +110,19 @@
 
   <div class="col l6">
 
-    <div class="collection" *ngIf="currentWorkout.exercises.length !== 0;">
+    <div class="collection" *ngIf="workout.exercises.length !== 0;">
       <a
-        *ngFor="let item of currentWorkout.exercises"
-        class="collection-item"
+        *ngFor="let exercise of workout.exercises"
+        class="collection-item collection-item-icon"
+        (click)="onSelectExercise(exercise)"
       >
-        {{item.name}} {{item.sets.length}} подхода
+
+         <span>
+           {{exercise.name}} {{exercise.sets.length}} подхода
+         </span>
+        <span>
+        <i class="material-icons" (click)="onDeleteExercise($event, exercise)">delete</i>
+      </span>
       </a>
     </div>
   </div>
@@ -125,7 +132,7 @@
 <form [formGroup]="formMuscle" (ngSubmit)="addMuscleInList()">
   <div class="modal" #modal>
     <div class="modal-content">
-      <h2 class="mb1 blue-text text-darken-2">{{currentMuscle ? currentMuscle.name : ''}}</h2>
+      <h2 class="mb1 blue-text text-darken-2">{{currentExercise ? currentExercise.name : ''}}</h2>
       <div class="input-field">
         <input
           formControlName="sets"
@@ -136,12 +143,6 @@
           (input)="onChangeSets()"
         >
         <label for="pos-name">Количество подходов</label>
-        <!-- <span
-          *ngIf="form.get('name').invalid && form.get('name').touched"
-          class="helper-text red-text"
-        >
-          Название не должно быть пустым.
-        </span> -->
       </div>
 
       <div class="input-field" *ngFor="let item of sets;  let i = index">

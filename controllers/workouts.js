@@ -11,14 +11,15 @@ module.exports.getAll = async (req, res) => {
     }
 };
 
-// module.exports.getById = async (req, res) => {
-//     try {
-//         const musclesGroup = await MusclesGroup.findById(req.params.id);
-//         res.status(200).json(musclesGroup);
-//     } catch (error) {
-//         errorHandler(res, error);
-//     }
-// };
+module.exports.getById = async (req, res) => {
+    console.log(req.params.id);
+    try {
+        const workout = await Workout.findById(req.params.id);
+        res.status(200).json(workout);
+    } catch (error) {
+        errorHandler(res, error);
+    }
+};
 
 // module.exports.remove = async (req, res) => {
 //     try {
@@ -33,37 +34,47 @@ module.exports.getAll = async (req, res) => {
 // };
 
 module.exports.create = async (req, res) => {
-    console.log(req.body)
-    const workout = new Workout({
-        name: req.body.name,
-        user: req.user.id,
-        exercises: req.body.exercises
-    });
-    try {
-        await workout.save();
-        res.status(201).json(workout)
-    } catch (error) {
-        errorHandler(res, error);
+    const candidate = await Workout.findOne({name: req.body.name});
+    console.log(candidate)
+    if (candidate) {
+        res.status(409).json({
+            message: 'Тренировка с таким названием существует! Поменяйте название тренировки.'
+        })
+    } else {
+        const workout = new Workout({
+            name: req.body.name,
+            user: req.user.id,
+            exercises: req.body.exercises
+        });
+        try {
+            await workout.save();
+            res.status(201).json({
+                message: 'Тренировка успешно создана!'
+            })
+        } catch (error) {
+            errorHandler(res, error);
+        }
     }
+
+
 };
 
-// module.exports.update = async (req, res) => {
-//     const updated = {
-//         name: req.body.name
-//     };
+module.exports.update = async (req, res) => {
+    const updated = {
+        name: req.body.name,
+        exercises: req.body.exercises
+    };
 
-//     if (req.file) {
-//         updated.imageSrc = req.body.path
-//     }
-    
-//     try {
-//         const musclesGroup = await MusclesGroup.findOneAndUpdate(
-//             {_id: req.params.id},
-//             {$set: updated},
-//             {new: true}
-//         );
-//         res.status(200).json(musclesGroup)
-//     } catch (error) {
-//         errorHandler(res, error)
-//     }
-// };
+    try {
+        const workout = await Workout.findOneAndUpdate(
+            {_id: req.params.id},
+            {$set: updated},
+            {new: true}
+        );
+        res.status(200).json({
+            message: 'Тренировка успешно сохраненная!'
+        })
+    } catch (error) {
+        errorHandler(res, error)
+    }
+};

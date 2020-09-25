@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {MusclesGroup, Message} from "../interfaces";
+import {IMusclesGroup, IMessage} from "../interfaces";
 import {Observable} from "rxjs/internal/Observable";
 import {environment} from '../../../environments/environment';
 
@@ -12,28 +12,28 @@ export class MusclesGroupService {
 
   constructor(private http: HttpClient) {}
 
-  fetch(): Observable<MusclesGroup[]> {
-    return this.http.get<MusclesGroup[]>(`${environment.apiUrl}/api/muscles-group`)
+  fetch(): Observable<IMusclesGroup[]> {
+    return this.http.get<IMusclesGroup[]>(`${environment.apiUrl}/api/muscles-group`)
   }
 
-  fetchWithChildren(): Observable<MusclesGroup[]> {
-    return this.http.get<MusclesGroup[]>(`${environment.apiUrl}/api/muscles-group/muscles`)
+  fetchWithChildren(): Observable<IMusclesGroup[]> {
+    return this.http.get<IMusclesGroup[]>(`${environment.apiUrl}/api/muscles-group/muscles`)
   }
 
-  getById(id: string): Observable<MusclesGroup> {
-    return this.http.get<MusclesGroup>(`${environment.apiUrl}/api/muscles-group/${id}`)
+  getById(id: string): Observable<IMusclesGroup> {
+    return this.http.get<IMusclesGroup>(`${environment.apiUrl}/api/muscles-group/${id}`)
   }
 
-  create(name: string): Observable<MusclesGroup> {
+  create(name: string): Observable<IMusclesGroup> {
     const formData = new FormData();
     formData.append('name', name);
     console.log(formData);
     console.log(name);
-    
-    return this.http.post<MusclesGroup>(`${environment.apiUrl}/api/muscles-group`, formData)
+
+    return this.http.post<IMusclesGroup>(`${environment.apiUrl}/api/muscles-group`, formData)
   }
 
-  update(id: string, name: string, image?: File): Observable<MusclesGroup> {
+  update(id: string, name: string, image?: File): Observable<IMusclesGroup> {
     let formData = new FormData();
 
     if (image) {
@@ -41,10 +41,10 @@ export class MusclesGroupService {
     }
     formData.append('name', name);
 
-    return this.http.patch<MusclesGroup>(`${environment.apiUrl}/api/muscles-group/${id}`, formData)
+    return this.http.patch<IMusclesGroup>(`${environment.apiUrl}/api/muscles-group/${id}`, formData)
   }
 
-  delete(id: string): Observable<Message> {
-    return this.http.delete<Message>(`${environment.apiUrl}/api/muscles-group/${id}`)
+  delete(id: string): Observable<IMessage> {
+    return this.http.delete<IMessage>(`${environment.apiUrl}/api/muscles-group/${id}`)
   }
 }

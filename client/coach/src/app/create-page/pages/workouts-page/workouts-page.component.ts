@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Workout } from 'src/app/shared/interfaces';
+import { IWorkout } from 'src/app/shared/interfaces';
 import { Observable } from 'rxjs';
 import { WorkoutsService } from '../../../shared/services/workouts.service'
 
@@ -10,7 +10,7 @@ import { WorkoutsService } from '../../../shared/services/workouts.service'
 })
 export class WorkoutsPageComponent implements OnInit {
 
-  workouts$: Observable<Workout[]>;
+  workouts$: Observable<IWorkout[]>;
 
   constructor(private workoutsService: WorkoutsService) { }
 

@@ -5,7 +5,7 @@ import {MusclesGroupService} from "../../../../shared/services/muscles-group.ser
 import {switchMap} from "rxjs/operators";
 import {of} from "rxjs/internal/observable/of";
 import {MaterialService} from "../../../../shared/services/material.service";
-import {MusclesGroup} from "../../../../shared/interfaces";
+import {IMusclesGroup} from "../../../../shared/interfaces";
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,7 +19,7 @@ export class MusclesFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isLoaded= false;
   isNew = true;
-  musclesGroup: MusclesGroup;
+  musclesGroup: IMusclesGroup;
   environment = environment;
   aSub$;
   constructor(private route: ActivatedRoute,
@@ -47,7 +47,7 @@ export class MusclesFormComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(
-        (musclesGroup: MusclesGroup) => {
+        (musclesGroup: IMusclesGroup) => {
           if (musclesGroup) {
             this.musclesGroup = musclesGroup;
             this.form.patchValue({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MusclesGroupService } from "../../../shared/services/muscles-group.service";
-import { MusclesGroup } from "../../../shared/interfaces";
+import { IMusclesGroup } from "../../../shared/interfaces";
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class MusclesPageComponent implements OnInit {
 
-  musclesGroup$: Observable<MusclesGroup[]>;
+  musclesGroup$: Observable<IMusclesGroup[]>;
 
   constructor(private musclesGroupService: MusclesGroupService) { }
 

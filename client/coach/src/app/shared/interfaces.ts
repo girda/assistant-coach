@@ -1,64 +1,73 @@
-export interface User {
+export interface IUser {
     email: string
     password: string
 }
 
-export interface Message {
+export interface IMessage {
   message: string
 }
 
-export interface MusclesGroup {
-  name: string,
-  user?: string,
-  _id?: string,
-  children?: Muscle[]
+export interface IMusclesGroup {
+  name: string
+  user?: string
+  _id?: string
+  children?: IMuscle[]
 }
 
-export interface Muscle {
-  name: string,
-  description: string,
-  imageSrc?: string,
-  user?: string,
-  category: string,
-  _id?: string,
+export interface IMuscle {
+  name: string
+  description: string
+  imageSrc?: string
+  user?: string
+  category: string
+  _id?: string
   sets?: any[]
 }
 
-export interface Workout {
-  name: string,
-  user?: string,
+export interface IWorkout {
+  name: string
+  user?: string
   _id?: string
-  exercises: Exercises[]
+  exercises: IExercise[]
 }
 
-export interface Exercises {
-  id: string
+export interface IExercise {
+  _id: string
   sets: number[]
+  name: String
 }
+
+
+
+
+
+
+
+
 
 export  interface Order {
-  date?: Date,
-  order?: number,
-  user?: string,
-  list: OrderPosition[],
+  date?: Date
+  order?: number
+  user?: string
+  list: OrderPosition[]
   _id?: string
 }
 
 export interface OrderPosition {
-  name: string,
-  cost: number,
-  quantity: number,
+  name: string
+  cost: number
+  quantity: number
   _id?: string
 }
 
 export interface Filter {
-  start?: Date,
-  end?: Date,
+  start?: Date
+  end?: Date
   order?: number
 }
 
 export interface OverviewPage {
-  orders?: OverviewPageItem,
+  orders?: OverviewPageItem
   gain?: OverviewPageItem
 }
 
