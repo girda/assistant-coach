@@ -13,7 +13,7 @@ export class WorkoutsService {
   constructor(private http: HttpClient) {}
 
   fetch(): Observable<IWorkout[]> {
-        return this.http.get<IWorkout[]>(`${environment.apiUrl}/api/workout`)
+        return this.http.get<IWorkout[]>(`${environment.apiUrl}/api/workouts`)
       }
 
 //   fetch(): Observable<MusclesGroup[]> {
@@ -21,15 +21,15 @@ export class WorkoutsService {
 //   }
 
   getById(id: string): Observable<IWorkout> {
-    return this.http.get<IWorkout>(`${environment.apiUrl}/api/workout/${id}`)
+    return this.http.get<IWorkout>(`${environment.apiUrl}/api/workouts/${id}`)
   }
 
-  create(workout: IWorkout): Observable<IWorkout | any> {
-    return this.http.post<IWorkout>(`${environment.apiUrl}/api/workout`, workout)
+  create(workout: IWorkout): Observable<IMessage> {
+    return this.http.post<IMessage>(`${environment.apiUrl}/api/workouts`, workout)
   }
 
-  update(workout: IWorkout): Observable<IWorkout | any> {
-    return this.http.patch<IWorkout>(`${environment.apiUrl}/api/workout/${workout._id}`, workout)
+  update(workout: IWorkout): Observable<IMessage> {
+    return this.http.patch<IMessage>(`${environment.apiUrl}/api/workouts/${workout._id}`, workout)
   }
 
 //   delete(id: string): Observable<Message> {

@@ -3,6 +3,12 @@ export interface IUser {
     password: string
 }
 
+export interface IClient {
+  name: string
+  _id?: string
+  price?: string
+}
+
 export interface IMessage {
   message: string
 }

@@ -1,0 +1,70 @@
+<div class="page-title">
+  <h4>
+    <a routerLink="/create">Создать</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <a routerLink="/create/clients">Клиенты</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    <span *ngIf="isLoaded; else loader">
+        {{isNew ? 'Добавить' : 'Редактировать'}}
+      клиента
+      </span>
+    <ng-template #loader>
+      <app-loader [classMod]="cssMod"></app-loader>
+    </ng-template>
+  </h4>
+</div>
+
+<div class="row">
+  <form
+    class="col s12 l6"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="input-field">
+      <input
+        formControlName="name"
+        id="name"
+        type="text"
+        [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+      >
+      <label for="name">Имя</label>
+      <span
+        class="helper-text red-text"
+        *ngIf="form.get('name').invalid && form.get('name').touched"
+      >
+        <span
+          *ngIf="form.get('name').errors['required']"
+        >
+          Имя клиента не можит быть пустым
+        </span>
+        <span
+          *ngIf="form.get('name').errors['minlength'] && form.get('name').errors['minlength']['requiredLength']"
+        >
+          Имя должено быть больше {{form.get('name').errors['minlength']['requiredLength']}} символов. Сейчас {{form.get('name').errors['minlength']['actualLength']}}.
+        </span>
+      </span>
+    </div>
+
+    <div class="input-field">
+      <input
+        formControlName="price"
+        id="price"
+        type="text"
+      >
+      <label for="price">Стоимость тренировки</label>
+    </div>
+
+
+    <div>
+      <button
+        type="submit"
+        [disabled]="form.invalid || form.disabled"
+        class="waves-effect waves-light btn"
+      >
+        Сохранить изменения
+      </button>
+    </div>
+  </form>
+
+
+</div>

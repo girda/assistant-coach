@@ -1,12 +1,12 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MaterialService } from 'src/app/shared/services/material.service';
-import { Observable } from 'rxjs';
+import {Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy} from '@angular/core';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {MaterialService} from 'src/app/shared/services/material.service';
+import {Observable} from 'rxjs';
 import {IMusclesGroup, IMuscle, IWorkout, IExercise} from 'src/app/shared/interfaces';
-import { MusclesGroupService } from 'src/app/shared/services/muscles-group.service';
-import { MuscleService } from 'src/app/shared/services/muscle.service';
+import {MusclesGroupService} from 'src/app/shared/services/muscles-group.service';
+import {MuscleService} from 'src/app/shared/services/muscle.service';
 import {WorkoutsService} from "../../../../shared/services/workouts.service";
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import {ActivatedRoute, Router, Params} from '@angular/router';
 import {switchMap} from "rxjs/operators";
 import {of} from "rxjs/internal/observable/of";
 
@@ -20,8 +20,8 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('musclesGroupRef', {static: false}) musclesGroupRef: ElementRef;
   @ViewChild('modal', {static: false}) modalRef: ElementRef;
 
-  isLoaded = true;
-  isNew = true;
+  isLoaded: boolean = true;
+  isNew: boolean = true;
 
   cssMod: string = "small";
   cssModBig: string = "big";
@@ -46,7 +46,8 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
               private musclesService: MuscleService,
               private workoutService: WorkoutsService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+  }
 
 
   ngOnInit(): void {
@@ -95,7 +96,9 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.aSubMusclesGroup = this.musclesGroup$.subscribe(res => {
-      const initAccordion = () => {MaterialService.initAccordion(this.musclesGroupRef)};
+      const initAccordion = () => {
+        MaterialService.initAccordion(this.musclesGroupRef)
+      };
       setTimeout(initAccordion, 100)
     });
     this.modal = MaterialService.initModal(this.modalRef)
@@ -127,7 +130,7 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
     const countSets = this.formMuscle.get('sets').value;
 
     this.sets.forEach((set, i) => {
-      this.formMuscle.removeControl(`set${i+1}`);
+      this.formMuscle.removeControl(`set${i + 1}`);
     });
 
     this.sets = [];
@@ -137,8 +140,8 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const formValue = {sets: this.sets.length}
     this.sets.forEach((set, i) => {
-      formValue[`set${i+1}`] = set;
-      this.formMuscle.addControl(`set${i+1}`, new FormControl(null, [Validators.required, Validators.minLength(1)]));
+      formValue[`set${i + 1}`] = set;
+      this.formMuscle.addControl(`set${i + 1}`, new FormControl(null, [Validators.required, Validators.minLength(1)]));
     });
 
     this.formMuscle.patchValue(formValue);
@@ -149,19 +152,21 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.workout.name = this.form.get('name').value;
 
     if (this.isNew) {
-      this.aSubWorkoutService = this.workoutService.create(this.workout).subscribe(
-        res => {
-        this.router.navigate(['/create/workouts']);
-        MaterialService.toast(res.message);
-      },
-        error => {
-          MaterialService.toast(error.error.message);
-        })
+      this.aSubWorkoutService = this.workoutService.create(this.workout)
+        .subscribe(
+          res => {
+            this.router.navigate(['/create/workouts']);
+            MaterialService.toast(res.message);
+          },
+          error => {
+            MaterialService.toast(error.error.message);
+          })
     } else {
-      this.aSubWorkoutService = this.workoutService.update(this.workout).subscribe(res => {
-        this.router.navigate(['/create/workouts']);
-        MaterialService.toast(res.message);
-      })
+      this.aSubWorkoutService = this.workoutService.update(this.workout)
+        .subscribe(res => {
+          this.router.navigate(['/create/workouts']);
+          MaterialService.toast(res.message);
+        })
     }
 
   }
@@ -172,7 +177,7 @@ export class WorkoutFormComponent implements OnInit, AfterViewInit, OnDestroy {
     const candidateIndex = this.workout.exercises.findIndex(exercise => exercise._id === this.currentExercise._id);
 
     for (let i = 0; i < setsLength; i++) {
-      sets.push(this.formMuscle.get('set' + (i+1)).value)
+      sets.push(this.formMuscle.get('set' + (i + 1)).value)
     }
 
     if (candidateIndex === -1) {

@@ -14,7 +14,7 @@ export class MuscleService {
   }
 
   fetch(musclesGroup: string): Observable<IMuscle[]> {
-    return this.http.get<IMuscle[]>(`${environment.apiUrl}/api/muscle/${musclesGroup}`)
+    return this.http.get<IMuscle[]>(`${environment.apiUrl}/api/muscles/${musclesGroup}`)
   }
 
   create(muscle: IMuscle, image?: File): Observable<IMuscle> {
@@ -27,7 +27,7 @@ export class MuscleService {
       formData.append(key, muscle[key]);
     }
 
-    return this.http.post<IMuscle>(`${environment.apiUrl}/api/muscle`, formData)
+    return this.http.post<IMuscle>(`${environment.apiUrl}/api/muscles`, formData)
   }
 
   update(muscle: IMuscle, image?: File): Observable<IMuscle> {
@@ -39,10 +39,10 @@ export class MuscleService {
     for (var key in muscle) {
       formData.append(key, muscle[key]);
     }
-    return this.http.patch<IMuscle>(`${environment.apiUrl}/api/muscle/${muscle._id}`, formData)
+    return this.http.patch<IMuscle>(`${environment.apiUrl}/api/muscles/${muscle._id}`, formData)
   }
 
   delete(muscle: IMuscle): Observable<IMessage> {
-    return this.http.delete<IMessage>(`${environment.apiUrl}/api/muscle/${muscle._id}`)
+    return this.http.delete<IMessage>(`${environment.apiUrl}/api/muscles/${muscle._id}`)
   }
 }

@@ -21,6 +21,8 @@ import { WorkoutsPageComponent } from './create-page/pages/workouts-page/workout
 import { WorkoutFormComponent } from './create-page/pages/workouts-page/workout-form/workout-form.component';
 import { DiaryPageComponent } from './diary-page/diary-page.component';
 import { ListComponent } from './shared/components/list/list.component';
+import { ClientPageComponent } from './create-page/pages/client-page/client-page.component';
+import { ClientFormComponent } from './create-page/pages/client-page/client-form/client-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { ListComponent } from './shared/components/list/list.component';
     WorkoutsPageComponent,
     WorkoutFormComponent,
     DiaryPageComponent,
-    ListComponent
+    ListComponent,
+    ClientPageComponent,
+    ClientFormComponent
   ],
   imports: [
     BrowserModule,

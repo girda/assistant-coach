@@ -12,6 +12,8 @@ import { MusclesFormComponent } from './create-page/pages/muscles-page/muscles-f
 import { WorkoutsPageComponent } from './create-page/pages/workouts-page/workouts-page.component';
 import { WorkoutFormComponent } from './create-page/pages/workouts-page/workout-form/workout-form.component';
 import { DiaryPageComponent } from './diary-page/diary-page.component';
+import {ClientPageComponent} from "./create-page/pages/client-page/client-page.component";
+import {ClientFormComponent} from "./create-page/pages/client-page/client-form/client-form.component";
 
 const routes: Routes = [{
   path: '',
@@ -34,8 +36,11 @@ const routes: Routes = [{
     { path: 'create/workouts', component: WorkoutsPageComponent },
     { path: 'create/workouts/new', component: WorkoutFormComponent },
     { path: 'create/workouts/:id', component: WorkoutFormComponent },
+    { path: 'create/clients', component: ClientPageComponent },
+    { path: 'create/clients/new', component: ClientFormComponent },
+    { path: 'create/clients/:id', component: ClientFormComponent },
     { path: 'diary', component: DiaryPageComponent },
-    
+
   ]
 }];
 

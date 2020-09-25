@@ -1,0 +1,40 @@
+<div class="page-title">
+  <h4>
+    <a routerLink="/create">Создать</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    Клиента
+  </h4>
+  <button
+    class="waves-effect waves-light btn grey darken-1"
+    routerLink="/create/clients/new"
+  >
+    Добавить клиента
+  </button>
+</div>
+
+<div
+  class="row"
+  *ngIf="clients$ | async as clients; else loader"
+>
+  <div class="col s12">
+    <div class="collection" *ngIf="clients.length !== 0; else empty">
+      <a
+        *ngFor="let client of clients"
+        [routerLink]="['/create/clients', client._id]"
+        class="collection-item"
+      >
+        {{client.name}}
+      </a>
+    </div>
+    <ng-template #empty>
+      <div class="center">
+        У вас нет ни одной готовой тренировки
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
+
