@@ -44,7 +44,9 @@ module.exports.create = async (req, res) => {
         const workout = new Workout({
             name: req.body.name,
             user: req.user.id,
-            exercises: req.body.exercises
+            exercises: req.body.exercises,
+            clients: req.body.clients,
+            date: req.body.date
         });
         try {
             await workout.save();
@@ -62,7 +64,9 @@ module.exports.create = async (req, res) => {
 module.exports.update = async (req, res) => {
     const updated = {
         name: req.body.name,
-        exercises: req.body.exercises
+        exercises: req.body.exercises,
+        clients: req.body.clients,
+        date: req.body.date
     };
 
     try {

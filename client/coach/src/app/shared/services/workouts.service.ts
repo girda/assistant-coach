@@ -16,10 +16,6 @@ export class WorkoutsService {
         return this.http.get<IWorkout[]>(`${environment.apiUrl}/api/workouts`)
       }
 
-//   fetch(): Observable<MusclesGroup[]> {
-//     return this.http.get<MusclesGroup[]>(`${environment.apiUrl}/api/muscles-group`)
-//   }
-
   getById(id: string): Observable<IWorkout> {
     return this.http.get<IWorkout>(`${environment.apiUrl}/api/workouts/${id}`)
   }

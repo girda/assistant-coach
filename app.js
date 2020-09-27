@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/auth');
-const workoutsRoutes = require('./routes/workout');
+const workoutsRoutes = require('./routes/workouts');
+const clientsRoutes = require('./routes/clients');
 const musclesGroupRoutes = require('./routes/muscles-group');
 // const orderRoutes = require('./routes/order');
 const muscleRoutes = require('./routes/muscle');
@@ -32,7 +33,8 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/muscles-group', musclesGroupRoutes);
-app.use('/api/muscle', muscleRoutes);
-app.use('/api/workout', workoutsRoutes);
+app.use('/api/muscles', muscleRoutes);
+app.use('/api/workouts', workoutsRoutes);
+app.use('/api/clients', clientsRoutes);
 
 module.exports = app;

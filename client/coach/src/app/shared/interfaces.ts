@@ -34,13 +34,18 @@ export interface IWorkout {
   name: string
   user?: string
   _id?: string
-  exercises: IExercise[]
+  exercises?: IExercise[]
+  clients?: String[]
+  date?: Date
 }
 
 export interface IExercise {
   _id: string
   sets: number[]
+  weights: number[]
   name: String
+  date?: Date
+  client?: String
 }
 
 

@@ -87,26 +87,39 @@ export class MusclesFormComponent implements OnInit, OnDestroy {
     this.form.disable();
 
     if (this.isNew) {
-      this.aSub$ = this.musclesGroupService.create(this.form.value.name)
+      this.aSub$ = this.musclesGroupService.create(this.form.value.name).subscribe(
+        musclesGroup => {
+          console.log(musclesGroup);
+          this.musclesGroup = musclesGroup;
+          MaterialService.toast('Изменения сохранены.');
+          this.form.enable();
+        },
+        error => {
+          MaterialService.toast(error.error.message);
+          this.form.enable();
+        }
+      )
     } else {
-      this.aSub$ = this.musclesGroupService.update(this.musclesGroup._id, this.form.value.name)
+      this.aSub$ = this.musclesGroupService.update(this.musclesGroup._id, this.form.value.name).subscribe(
+        musclesGroup => {
+          console.log(musclesGroup);
+          this.musclesGroup = musclesGroup;
+          MaterialService.toast('Изменения сохранены.');
+          this.form.enable();
+        },
+        error => {
+          MaterialService.toast(error.error.message);
+          this.form.enable();
+        }
+      )
     }
 
-    this.aSub$.subscribe(
-      musclesGroup => {
-        console.log(musclesGroup);
-        this.musclesGroup = musclesGroup;
-        MaterialService.toast('Изменения сохранены.');
-        this.form.enable();
-      },
-      error => {
-        MaterialService.toast(error.error.message);
-        this.form.enable();
-      }
-    )
+
   }
 
   ngOnDestroy(): void {
+    console.log(this.aSub$);
+    
     if (this.aSub$) {
       this.aSub$.unsubscribe();
     }

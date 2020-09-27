@@ -22,35 +22,60 @@
     class="workout-form"
     [formGroup]="form"
     (ngSubmit)="onSubmit()">
-    <div class="input-field">
-      <input
-        formControlName="name"
-        id="name"
-        type="text"
-        [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
-      >
-      <label for="name">Название тренировки</label>
-      <span
-        class="helper-text red-text"
-        *ngIf="form.get('name').invalid && form.get('name').touched">
-          <span *ngIf="form.get('name').errors['required']">
-            Имя тренировки не можит быть пустым
+    <div class="row">
+      <div class="input-field col s6">
+        <input
+          formControlName="name"
+          id="name"
+          type="text"
+          [ngClass]="{'invalid' : form.get('name').invalid && form.get('name').touched}"
+        >
+        <label for="name">Название тренировки</label>
+        <span
+          class="helper-text red-text"
+          *ngIf="form.get('name').invalid && form.get('name').touched">
+            <span *ngIf="form.get('name').errors['required']">
+              Имя тренировки не можит быть пустым
+            </span>
           </span>
-        </span>
+      </div>
+
+      <div class="col s4">
+        <ngx-select-dropdown
+          formControlName="client"
+          [options]="dataClients"
+          [config]="configClients"
+          [multiple]="true"
+          [(ngModel)]="selectedClients"
+        ></ngx-select-dropdown>
+      </div>
+      
+      <div class="col s2">
+        <button
+          type="submit"
+          class="modal-action btn waves-effect"
+          [disabled]="form.invalid"
+        >
+          Сохранить тренировку
+        </button>
+      </div>
+      
+
     </div>
-
-
-    <button
-      type="submit"
-      class="modal-action btn waves-effect"
-      [disabled]="form.invalid"
-    >
-      Сохранить тренировку
-    </button>
-
-
+    <div class="row">
+      <div class="input-field col s2">
+        <input 
+          type="text" 
+          id="date"
+          #date
+        >
+        <label for="date">Дата</label>
+      </div>
+    </div>
   </form>
 </div>
+
+
 
 <div class="row">
   <div class="col l6">
@@ -145,15 +170,32 @@
         <label for="pos-name">Количество подходов</label>
       </div>
 
-      <div class="input-field" *ngFor="let item of sets;  let i = index">
-        <input
-          formControlName="set{{i+1}}"
-          id="set{{i+1}}"
-          type="number"
-          (ngModelChange)="materialService.updateTextInputs()"
-        >
-        <label for="set{{i+1}}">подход {{i + 1}}, введите к-во повторений</label>
+      <div class="row">
+        <div class="col l6">
+          <div class="input-field" *ngFor="let item of sets;  let i = index">
+            <input
+              formControlName="set{{i+1}}"
+              id="set{{i+1}}"
+              type="number"
+              (ngModelChange)="materialService.updateTextInputs()"
+            >
+            <label for="set{{i+1}}">подход {{i + 1}}, введите к-во повторений</label>
+          </div>
+        </div>
+
+        <div class="col l6">
+          <div class="input-field" *ngFor="let item of sets;  let i = index">
+            <input
+              formControlName="weight{{i+1}}"
+              id="weight{{i+1}}"
+              type="number"
+              (ngModelChange)="materialService.updateTextInputs()"
+            >
+            <label for="weight{{i+1}}">вес {{i + 1}}, введите к-во кг</label>
+          </div>
+        </div>
       </div>
+      
 
     </div>
     <div class="modal-footer">

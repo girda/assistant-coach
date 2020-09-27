@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from "./shared/services/token-interceptor.service";
+import { SelectDropDownModule } from 'ngx-select-dropdown'
 
 import { AppComponent } from './app.component';
 import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
@@ -49,7 +50,8 @@ import { ClientFormComponent } from './create-page/pages/client-page/client-form
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SelectDropDownModule
   ],
   providers: [
     {

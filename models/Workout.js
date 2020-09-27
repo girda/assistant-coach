@@ -10,6 +10,9 @@ const exerciseSchema = new Schema({
         type: [Number],
         required: true
     },
+    weights: {
+        type: [Number]
+    },
     name: {
         type: String,
         required: true
@@ -31,6 +34,16 @@ const workoutSchema = new Schema({
     user: {
         ref: 'users',
         type: Schema.Types.ObjectId
+    },
+    dateCreation: {
+        type: Date,
+        default: Date.now
+    },
+    date: {
+        type: Date
+    },
+    clients: {
+        type: [String]
     }
 });
 

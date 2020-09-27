@@ -3,8 +3,10 @@ const errorHandler = require('../util/errorHandlers');
 
 module.exports.getAll = async (req, res) => {
     try {
-        const workout = await Client.find({user: req.user.id});
-        res.status(200).json(workout);
+        console.log(req.user.id);
+        const clients = await Client.find({user: req.user.id});
+        console.log(clients);
+        res.status(200).json(clients);
     } catch (error) {
         errorHandler(res, error);
     }
@@ -13,8 +15,8 @@ module.exports.getAll = async (req, res) => {
 module.exports.getById = async (req, res) => {
     console.log(req.params.id);
     try {
-        const workout = await Client.findById(req.params.id);
-        res.status(200).json(workout);
+        const clients = await Client.findById(req.params.id);
+        res.status(200).json(clients);
     } catch (error) {
         errorHandler(res, error);
     }
@@ -40,15 +42,15 @@ module.exports.create = async (req, res) => {
             message: 'Тренировка с таким названием существует! Поменяйте название тренировки.'
         })
     } else {
-        const workout = new Client({
+        const clients = new Client({
             name: req.body.name,
             user: req.user.id,
-            exercises: req.body.exercises
+            price: req.body.price
         });
         try {
-            await workout.save();
+            await clients.save();
             res.status(201).json({
-                message: 'Тренировка успешно создана!'
+                message: 'Клиент успешно создан!'
             })
         } catch (error) {
             errorHandler(res, error);
@@ -61,17 +63,17 @@ module.exports.create = async (req, res) => {
 module.exports.update = async (req, res) => {
     const updated = {
         name: req.body.name,
-        exercises: req.body.exercises
+        price: req.body.price
     };
 
     try {
-        const workout = await Client.findOneAndUpdate(
+        await Client.findOneAndUpdate(
             {_id: req.params.id},
             {$set: updated},
             {new: true}
         );
         res.status(200).json({
-            message: 'Тренировка успешно сохраненная!'
+            message: 'Изменения успешно сохраненны!'
         })
     } catch (error) {
         errorHandler(res, error)

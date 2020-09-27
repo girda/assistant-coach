@@ -20,7 +20,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
   cssMod: string = "small";
 
   form: FormGroup;
-  client: IClient;
+  client: IClient = {name: ''};
   aSub;
 
   constructor(private clientServices: ClientService,
@@ -71,6 +71,7 @@ export class ClientFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.form.disable();
+console.log(this.client);
 
     this.client.name = this.form.get('name').value;
     this.client.price = this.form.get('price').value;

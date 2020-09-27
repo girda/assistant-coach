@@ -8,9 +8,11 @@ export interface MaterialInstance {
   onOpenStart?(): void
 }
 
-export interface MaterialDatepicker extends MaterialInstance{
+export interface MaterialDatepicker extends MaterialInstance {
   date?: Date
+  setDate?(): void
 }
+
 export class MaterialService {
   static toast(message: string) {
     M.toast({html: message});
@@ -39,12 +41,15 @@ export class MaterialService {
   static initAccordion(ref: ElementRef, onOpenStart?: () => void) {
     M.Collapsible.init(ref.nativeElement, {onOpenStart});
   }
+
+  static initAutocomplete(ref: ElementRef, options?) {
+    M.Autocomplete.init(ref.nativeElement, options);
+  }
   
-  static initDatepicker(ref: ElementRef, onClose: () => void): MaterialDatepicker {
+  static initDatepicker(ref: ElementRef): MaterialDatepicker {
     return M.Datepicker.init(ref.nativeElement, {
       format: 'dd.mm.yyyy',
-      showClearBtn: true,
-      onClose
+      showClearBtn: true
     })
   }
 
