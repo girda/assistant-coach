@@ -1,14 +1,17 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {IWorkout, IMessage} from "../interfaces";
+import {IWorkout, IMessage, IExercise} from "../interfaces";
 import {Observable} from "rxjs/internal/Observable";
 import {environment} from '../../../environments/environment';
+import {MaterialService} from "./material.service";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class WorkoutsService {
+
+  workout: IWorkout
 
   constructor(private http: HttpClient) {}
 
@@ -31,4 +34,15 @@ export class WorkoutsService {
 //   delete(id: string): Observable<Message> {
 //     return this.http.delete<Message>(`${environment.apiUrl}/api/muscles-group/${id}`)
 //   }
+
+  deleteExercise(event: Event, exercise: IExercise) {
+    event.stopPropagation();
+    const decision = confirm(`Удалить упражнение "${exercise.name}"?`);
+
+    if (decision) {
+      const candidateIndex = this.workout.exercises.findIndex(ex => ex._id === exercise._id);
+      this.workout.exercises.splice(candidateIndex, 1);
+      MaterialService.toast(`Упражнение ${exercise.name} удалено!`);
+    }
+  }
 }

@@ -7,9 +7,6 @@
     <span *ngIf="isLoaded; else loader">
         {{isNew ? 'Добавить' : 'Редактировать'}}
       тренировку
-      <!--      {{form.get('name').value ? '"' : ''}}-->
-      <!--      {{form.get('name').value}}-->
-      <!--      {{form.get('name').value ? '"' : ''}}-->
       </span>
     <ng-template #loader>
       <app-loader [classMod]="cssMod"></app-loader>
@@ -49,7 +46,7 @@
           [(ngModel)]="selectedClients"
         ></ngx-select-dropdown>
       </div>
-      
+
       <div class="col s2">
         <button
           type="submit"
@@ -59,13 +56,13 @@
           Сохранить тренировку
         </button>
       </div>
-      
+
 
     </div>
     <div class="row">
       <div class="input-field col s2">
-        <input 
-          type="text" 
+        <input
+          type="text"
           id="date"
           #date
         >
@@ -195,7 +192,7 @@
           </div>
         </div>
       </div>
-      
+
 
     </div>
     <div class="modal-footer">
